@@ -1,11 +1,13 @@
 version: "3.7"
 services:
-  TAG:
-    image: TAG
+  %REPO%:
+    build:
+      context: .
+    image: %REPO%:%TAG%
     entrypoint: "tail -f /dev/null"
     ports:
-      - "LOCAL_PORT:EXPOSE"
+      - "%LOCAL_PORT%:%EXPOSE%"
     volumes:
       - type: bind
-        source: "VOLUME_SOURCE"
-        target: "WORKDIR"
+        source: "%VOLUME_SOURCE%"
+        target: "%WORKDIR%"

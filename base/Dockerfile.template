@@ -5,8 +5,8 @@ RUN apt-get update -q && apt-get install -qy \
       man make git netcat \
       software-properties-common
 
-WORKDIR «value WORKDIR from bin/vars»
+WORKDIR %WORKDIR%
 VOLUME  /workdir
-EXPOSE «value EXPOSE from bin/vars»
+EXPOSE %EXPOSE%
 
 # vim: ft=Dockerfile
