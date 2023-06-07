@@ -1,0 +1,35 @@
+#!/bin/sh
+set -e
+
+. bin/vars
+
+echo "[ bin/build ] 🚢 Generating Dockerfile"
+echo "# This is generated, please edit"                       >  Dockerfile
+echo "# Dockerfile.template if you want to"                   >> Dockerfile
+echo "# make changes. Also note that some"                    >> Dockerfile
+echo "# values come from bin/vars, so check that out as well" >> Dockerfile
+
+cat Dockerfile.template | \
+    sed "s:%EXPOSE%:$EXPOSE:"  | \
+    sed "s:%WORKDIR%:$WORKDIR:" | \
+    sed "s:%ARCH%:$ARCH:" | \
+    sed "s:%RUBY_VERSION_TAG%:$RUBY_VERSION_TAG:" | \
+    sed "s:%RAILS_VERSION%:$RAILS_VERSION:"  \
+    >> Dockerfile
+
+echo "[ bin/build ] 🚢 Generating docker-compose.yml"
+cat docker-compose.yml.template | \
+  sed "s:%TAG%:$TAG:g" | \
+  sed "s:%REPO%:$REPO:g" | \
+  sed "s:%ARCH%:$ARCH:" | \
+  sed "s:%EXPOSE%:$EXPOSE:g" | \
+  sed "s:%LOCAL_PORT%:$LOCAL_PORT:g" | \
+  sed "s:%VOLUME_SOURCE%:`pwd`:g" | \
+  sed "s:%WORKDIR%:$WORKDIR:g" \
+  > docker-compose.yml
+
+echo "[ bin/build ] 🚢 Building image"
+docker build  -t $REPO:$TAG ./
+
+echo "🌈 Your Docker image has been built tagged '${REPO}:${TAG}'"
+# vim: ft=bash

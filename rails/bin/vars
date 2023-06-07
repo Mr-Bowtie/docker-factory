@@ -1,0 +1,27 @@
+# Set this to the port in the Docker container you want exposed.
+# This should be the port your Rails app runs on, and 3000 is the default
+EXPOSE=3000
+
+# Set this to the port on your localhost you want to use to access
+# the the Rails app.
+LOCAL_PORT=9998
+
+# name of the project repo
+REPO=test
+# Set this to the tag name to use (required)
+TAG=latest
+
+# Set this to the directory inside the Docker image you want to mirror
+# your project's root directory
+WORKDIR=/root/work
+
+# architecture the image should be built for 
+ARCH=amd64
+
+# the tag to use from the official ruby docker image
+RUBY_VERSION_TAG=3.2.2
+
+RAILS_VERSION=7.0.5
+
+
+# vim: ft=bash
