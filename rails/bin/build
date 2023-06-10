@@ -1,7 +1,8 @@
 #!/bin/sh
 set -e
 
-. bin/vars
+. /home/mr_bowtie/Programming/ruby/docker-factory/rails/bin/vars
+
 
 echo "[ bin/build ] 🚢 Generating Dockerfile"
 echo "# This is generated, please edit"                       >  Dockerfile
