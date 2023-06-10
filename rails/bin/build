@@ -3,6 +3,23 @@ set -e
 
 . /home/mr_bowtie/Programming/ruby/docker-factory/rails/bin/vars
 
+flag_present=false
+
+for arg in "$@"; do
+  if [ "$arg" = "--auto" ]; then
+    flag_present=true
+    break
+  fi
+done
+
+if ["$flag_present" = false]; then
+  read -p "Have you updated the values in bin/vars? (y/N) " response
+
+  if ! [[ "$response" =~ ^(y|Y|yes|YES)$ ]]; then
+    echo "Well then, you better go do that"
+    exit 0
+  fi
+fi 
 
 echo "[ bin/build ] 🚢 Generating Dockerfile"
 echo "# This is generated, please edit"                       >  Dockerfile
@@ -29,8 +46,11 @@ cat docker-compose.yml.template | \
   sed "s:%WORKDIR%:$WORKDIR:g" \
   > docker-compose.yml
 
-echo "[ bin/build ] 🚢 Building image"
-docker build  -t $REPO:$TAG ./
+if ["$flag_present" = false]; then
+  echo "[ bin/build ] 🚢 Building image"
+  docker build  -t $REPO:$TAG ./
 
-echo "🌈 Your Docker image has been built tagged '${REPO}:${TAG}'"
+  echo "🌈 Your Docker image has been built tagged '${REPO}:${TAG}'"
+fi
+
 # vim: ft=bash
