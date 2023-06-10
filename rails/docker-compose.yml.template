@@ -10,6 +10,7 @@ services:
     # we want to build from the Dockerfile in this directory instead of pulling down an image from docker hub
     build:
       context: .
+    container_name: %REPO%-web
     # This gives the built image a name and tag matching the project names
     image: %REPO%:latest
     # This says that our app should not start up until the DB and Redis instances
@@ -80,6 +81,8 @@ services:
     # can see the default values for
     # connecting to postgres.
     image: %ARCH%/postgres:15
+    container_name: %REPO%-db
+
     # We don't want to pull this big image every time
     pull_policy: "missing"
     # In Postgres 15, there is no default value for the password.
@@ -93,6 +96,7 @@ services:
   # Postgres block above, this starts up a Redis server using 6.x.x
   redis:
     image: %ARCH%/redis:6
+    container_name: %REPO%-redis
     # We don't want to pull this big image every time
     pull_policy: "missing"
 # vim: ft=yaml nospell
